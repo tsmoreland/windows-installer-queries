@@ -1,4 +1,4 @@
-﻿namespace TSMoreland.Samples.ProductFinder;
+﻿namespace TSMoreland.WindowsInstaller.ProductFinder;
 
 internal sealed class MaybeDisposable<T> : IDisposable
     where T : IDisposable

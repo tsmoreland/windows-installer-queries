@@ -1,4 +1,4 @@
-﻿namespace TSMoreland.Samples.ProductFinder;
+﻿namespace TSMoreland.WindowsInstaller.ProductFinder;
 
 public sealed class MsiProperty : IEquatable<MsiProperty>
 {

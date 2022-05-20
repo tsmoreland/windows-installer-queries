@@ -1,4 +1,6 @@
-﻿if (args.Length < 1)
+﻿using TSMoreland.WindowsInstaller.ProductFinder;
+
+if (args.Length < 1)
 {
     Console.WriteLine("usage: productFinder {upgrade code}");
     return;

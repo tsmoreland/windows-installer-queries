@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
-namespace TSMoreland.Samples.ProductFinder;
+namespace TSMoreland.WindowsInstaller.ProductFinder;
 
 internal static class NativeMethods
 {
