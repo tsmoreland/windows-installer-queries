@@ -45,18 +45,15 @@ internal static class NativeMethods
     /// </returns>
     public static bool GetProductInfo(string product, MsiProperty property, StringBuilder buffer, Action<string>? logError = null)
     {
-        const int success = 0;
-        const int propertyNotFound = 1608;
-        const int productNotFound = 1605;
-
-        int length = 0;
+        int length = buffer.Capacity;
         int result = MsiGetProductInfo(product, property, buffer, ref length);
-        if (result == success)
+
+        if (result == Success)
         {
             return true;
         }
 
-        if (result != propertyNotFound && result != productNotFound)
+        if (result != PropertyNotFound && result != ProductNotFound)
         {
             logError?.Invoke($"Error: {result} ({result:X})");
             return false;
@@ -111,30 +108,31 @@ internal static class NativeMethods
     /// <returns><see cref="IEnumerable{String}"/> containing the related product codes</returns>
     public static IEnumerable<string> GetRelatedProducts(string upgradeCode, Action<string>? logError = null)
     {
-        const uint success = 0u;
-        const uint noMoreData = 259u;
-
         int index = 0;
         StringBuilder productCodeBuilder = new(39); // capacity for a GUID
 
-        uint result;
-        for (result = MsiEnumRelatedProducts(upgradeCode, 0, index, productCodeBuilder); result == success; index++)
+        int result;
+        while ((result = MsiEnumRelatedProducts(upgradeCode, 0, index++, productCodeBuilder)) == Success)
         {
             yield return productCodeBuilder.ToString();
             productCodeBuilder.Clear();
         }
 
-        if (result != noMoreData)
+        if (result != NoMoreData)
         {
             logError?.Invoke($"Ended early with: {result} ({result:X})");
         }
     }
 
+    private const int Success = 0;
+    private const int NoMoreData = 259;
+    private const int PropertyNotFound = 1608;
+    private const int ProductNotFound = 1605;
 
     [DllImport("msi.dll", CharSet=CharSet.Unicode)]
     private static extern int MsiGetProductInfo(string product, string property, [Out] StringBuilder valueBuffer, ref int len);
 
 
     [DllImport("msi.dll", CharSet = CharSet.Auto, SetLastError=true)]
-    private static extern uint MsiEnumRelatedProducts(string upgradeCode, int reserved, int index, StringBuilder productCodeBuilder);
+    private static extern int MsiEnumRelatedProducts(string upgradeCode, int reserved, int index, StringBuilder productCodeBuilder);
 }
