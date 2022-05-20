@@ -3,19 +3,31 @@
 internal sealed class MaybeDisposable<T> : IDisposable
     where T : IDisposable
 {
+    private readonly T? _value;
+
     public MaybeDisposable(T? value)
     {
-        Value = value;
+        _value = value;
     }
-    public T? Value { get; }
-    public bool HasValue => Value is not null;
+
+    /// <summary>
+    /// Returns value
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// if <see cref="HasValue"/> is <see langword="false"/>
+    /// </exception>
+    public T Value => _value is not null
+        ? _value
+        : throw new InvalidOperationException("Cannot access value when not present.");
+
+    public bool HasValue => _value is not null;
 
     public static implicit operator T?(MaybeDisposable<T> source) =>
-        source.Value;
+        source._value;
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        Value?.Dispose();
+        _value?.Dispose();
     }
 }
