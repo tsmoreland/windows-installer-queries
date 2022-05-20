@@ -8,21 +8,17 @@ if (args.Length < 1)
 
 string upgradeCode = args[0];
 
-int index = 0;
 StringBuilder builder = new(512);
 
-while (NativeMethods.EnumRelatedProducts(upgradeCode, index++, builder))
+foreach (string productCode in NativeMethods.GetRelatedProducts(upgradeCode, Console.WriteLine))
 {
-    Console.Out.WriteLine($"Found product {index - 1}");
-
-    string productCode = builder.ToString();
-    builder.Clear();
     Console.Out.WriteLine(productCode);
 
     int length = builder.Capacity;
-    if (NativeMethods.GetProductInfo(productCode, MsiProperty.VersionString, builder, ref length))
+    if (NativeMethods.GetProductInfo(productCode, MsiProperty.VersionString, builder, Console.WriteLine))
     {
         Console.Out.WriteLine(builder.ToString());
     }
     builder.Clear();
 }
+

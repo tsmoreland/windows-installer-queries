@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSMoreland.WindowsInstaller.ProductFinder", "TSMoreland.WindowsInstaller.ProductFinder.csproj", "{F1C5D680-CA01-443C-AA72-FE446066620C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2ABC600-B299-461A-AFE8-C4D8AA3A9061}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSMoreland.WindowsInstaller.ProductFinder", "TSMoreland.WindowsInstaller.ProductFinder\TSMoreland.WindowsInstaller.ProductFinder.csproj", "{9CB723DA-40C2-4717-90FF-87625046D99A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +16,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F1C5D680-CA01-443C-AA72-FE446066620C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1C5D680-CA01-443C-AA72-FE446066620C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1C5D680-CA01-443C-AA72-FE446066620C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1C5D680-CA01-443C-AA72-FE446066620C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CB723DA-40C2-4717-90FF-87625046D99A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB723DA-40C2-4717-90FF-87625046D99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB723DA-40C2-4717-90FF-87625046D99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB723DA-40C2-4717-90FF-87625046D99A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
