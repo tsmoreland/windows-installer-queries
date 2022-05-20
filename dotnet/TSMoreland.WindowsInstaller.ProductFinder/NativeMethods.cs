@@ -74,7 +74,7 @@ internal static class NativeMethods
             buffer.Append(@"\InstallProperties");
             string registryKey = buffer.ToString();
             using MaybeDisposable<RegistryKey> maybeKey = new(Registry.LocalMachine.OpenSubKey(registryKey));
-            if (maybeKey.Value is null)
+            if (!maybeKey.HasValue)
             {
                 logError?.Invoke($"resgistry key {registryKey} not found");
                 return false;
