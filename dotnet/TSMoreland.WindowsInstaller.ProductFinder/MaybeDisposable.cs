@@ -8,6 +8,7 @@ internal sealed class MaybeDisposable<T> : IDisposable
         Value = value;
     }
     public T? Value { get; }
+    public bool HasValue => Value is not null;
 
     public static implicit operator T?(MaybeDisposable<T> source) =>
         source.Value;
