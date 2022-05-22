@@ -360,6 +360,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .vscode
+.dccache
 
 [Oo]ut/
 [Bb]uild/
