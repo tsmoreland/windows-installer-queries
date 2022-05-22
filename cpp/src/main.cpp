@@ -11,7 +11,9 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+#ifndef GLOG_NO_ABBREVIATED_SEVERITIES
 #define GLOG_NO_ABBREVIATED_SEVERITIES  // NOLINT(clang-diagnostic-macro-redefined)
+#endif
 
 #include <Windows.h>
 #include <glog/logging.h>
@@ -26,11 +28,16 @@ int main(int argc, char* argv[]) {
 
 	google::InitGoogleLogging(argv[0]);
 
-	DLOG(INFO) << "sample log message";
+	for (auto const products = product_info::get_related_products(L"upgrade_code");
+         auto const& product : products) {
 
-	for (auto const product_codes = product_info::get_related_product_codes(L"upgrade_code"); 
-		 auto const& product_code : product_codes) {
-        std::wcout << product_code << std::endl;
+
+        if (auto const version = product.get_version(); version.has_value()) {
+            std::wcout << version.value() << std::endl;
+        } else {
+            LOG(INFO) << "failed to get version";
+
+        }
     }
 
 	return 0;
