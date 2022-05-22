@@ -6,19 +6,20 @@ if (args.Length < 1)
     return;
 }
 
-string upgradeCode = args[0];
-
-StringBuilder builder = new(512);
-
-foreach (string productCode in NativeMethods.GetRelatedProducts(upgradeCode, Console.WriteLine))
+string rawUpgradeCode = args[0];
+if (!Guid.TryParse(rawUpgradeCode, out Guid upgradeCode))
 {
-    Console.Out.WriteLine(productCode);
+    Console.WriteLine("invalid uuid");
+    return;
+}
 
-    int length = builder.Capacity;
-    if (NativeMethods.GetProductInfo(productCode, MsiProperty.VersionString, builder, Console.WriteLine))
+
+foreach (MsiProduct product in MsiProduct.GetProductsFromUpgradeCode(upgradeCode))
+{
+    if (product.TryGetVersion(out Version? version))
     {
-        Console.Out.WriteLine(builder.ToString());
+        Console.WriteLine($"{product.ProductCode}: {version}");
     }
-    builder.Clear();
+
 }
 

@@ -48,12 +48,12 @@ internal static class NativeMethods
         int length = buffer.Capacity;
         int result = MsiGetProductInfo(product, property, buffer, ref length);
 
-        if (result == Success)
+        if (result == Win32ResultCodes.Success.Value())
         {
             return true;
         }
 
-        if (result != PropertyNotFound && result != ProductNotFound)
+        if (result != Win32ResultCodes.PropertyNotFound.Value() && result != Win32ResultCodes.ProductNotFound.Value())
         {
             logError?.Invoke($"Error: {result} ({result:X})");
             return false;
@@ -112,27 +112,22 @@ internal static class NativeMethods
         StringBuilder productCodeBuilder = new(39); // capacity for a GUID
 
         int result;
-        while ((result = MsiEnumRelatedProducts(upgradeCode, 0, index++, productCodeBuilder)) == Success)
+        while ((result = MsiEnumRelatedProducts(upgradeCode, 0, index++, productCodeBuilder)) == Win32ResultCodes.Success.Value())
         {
             yield return productCodeBuilder.ToString();
             productCodeBuilder.Clear();
         }
 
-        if (result != NoMoreData)
+        if (result != Win32ResultCodes.NoMoreData.Value())
         {
             logError?.Invoke($"Ended early with: {result} ({result:X})");
         }
     }
 
-    private const int Success = 0;
-    private const int NoMoreData = 259;
-    private const int PropertyNotFound = 1608;
-    private const int ProductNotFound = 1605;
-
     [DllImport("msi.dll", CharSet=CharSet.Unicode)]
-    private static extern int MsiGetProductInfo(string product, string property, [Out] StringBuilder valueBuffer, ref int len);
+    public static extern int MsiGetProductInfo(string product, string property, [Out] StringBuilder valueBuffer, ref int len);
 
 
     [DllImport("msi.dll", CharSet = CharSet.Auto, SetLastError=true)]
-    private static extern int MsiEnumRelatedProducts(string upgradeCode, int reserved, int index, StringBuilder productCodeBuilder);
+    public static extern int MsiEnumRelatedProducts(string upgradeCode, int reserved, int index, StringBuilder productCodeBuilder);
 }

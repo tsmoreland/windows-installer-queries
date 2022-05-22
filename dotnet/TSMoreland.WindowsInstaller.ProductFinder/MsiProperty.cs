@@ -47,5 +47,5 @@ public sealed class MsiProperty : IEquatable<MsiProperty>
     public static MsiProperty UrlUpdateInfo = new("INSTALLPROPERTY_URLUPDATEINFO"); // URL update information. For more information, see the ARPURLUPDATEINFO property.
     public static MsiProperty VersionMinor = new("INSTALLPROPERTY_VERSIONMINOR"); // Minor product version derived from the ProductVersion property.
     public static MsiProperty VersionMajor = new("INSTALLPROPERTY_VERSIONMAJOR"); // Major product version derived from the ProductVersion property.
-    public static MsiProperty VersionString = new("INSTALLPROPERTY_VERSIONSTRING"); // Product version. For more information, see the ProductVersion property.
+    public static MsiProperty VersionString = new("INSTALLPROPERTY_VERSIONSTRING"); // MsiProduct version. For more information, see the ProductVersion property.
 }
