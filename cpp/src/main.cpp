@@ -15,6 +15,9 @@
 
 #include <Windows.h>
 #include <glog/logging.h>
+#include <iostream>
+
+import ProductInfo;
 
 int main(int argc, char* argv[]) {
 	if (char path[MAX_PATH + 1] {}; GetCurrentDirectory(MAX_PATH, path) != 0) {
@@ -24,6 +27,11 @@ int main(int argc, char* argv[]) {
 	google::InitGoogleLogging(argv[0]);
 
 	DLOG(INFO) << "sample log message";
+
+	for (auto const product_codes = product_info::get_related_product_codes(L"upgrade_code"); 
+		 auto const& product_code : product_codes) {
+        std::wcout << product_code << std::endl;
+    }
 
 	return 0;
 }
