@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
 
         if (auto const version = product.get_version(); version.has_value()) {
-            std::wcout << version.value() << std::endl;
+            std::wcout << product.product_code() << L": " << version.value() << std::endl;
         } else {
             LOG(INFO) << "failed to get version";
 

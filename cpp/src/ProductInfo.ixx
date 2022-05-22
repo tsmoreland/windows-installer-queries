@@ -55,6 +55,14 @@ namespace product_info {
             return version;
         }
 
+        /// <summary>
+        /// returns the product code
+        /// </summary>
+        /// <returns>the product code</returns>
+        [[nodiscard]] constexpr wstring const& product_code() const noexcept {
+            return product_code_;
+        }
+
     private:
         [[nodiscard]] optional<wstring> get_version_from_product_info() const noexcept {
 
