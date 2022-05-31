@@ -53,7 +53,7 @@ internal sealed class MsiProduct
         try
         {
             int result = NativeMethods
-                .MsiGetProductInfo(ProductCode.ToString("c"), MsiProperty.VersionString, _builder.Value, ref length);
+                .MsiGetProductInfo(ProductCode.ToString("B"), MsiProperty.VersionString, _builder.Value, ref length);
             if (result != Win32ResultCodes.Success.Value())
             {
                 return false;

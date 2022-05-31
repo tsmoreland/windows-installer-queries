@@ -41,10 +41,10 @@ namespace product_info {
     /// MSI Product information
     /// </summary>
     export class msi_product {
-        wstring product_code_{};
+        guid product_code_{};
 
     public:
-        explicit msi_product(wstring const& product_code) : product_code_{product_code} {}
+        explicit msi_product(wstring const& product_code) : product_code_{product_code.c_str()} {}
 
         /// <summary>
         /// get version or nullopt
@@ -63,7 +63,7 @@ namespace product_info {
         /// returns the product code
         /// </summary>
         /// <returns>the product code</returns>
-        [[nodiscard]] constexpr wstring const& product_code() const noexcept {
+        [[nodiscard]] constexpr guid const& product_code() const noexcept {
             return product_code_;
         }
 
@@ -73,7 +73,9 @@ namespace product_info {
             auto buffer = std::make_unique<wchar_t[]>(512);
             DWORD length{512};
 
-            if (0u != MsiGetProductInfoW(product_code_.c_str(), L"INSTALLPROPERTY_VERSIONSTRING", buffer.get(), &length)) {
+            auto const product_code_reg_fmt{to_registry_wstring(product_code_)};
+
+            if (0u != MsiGetProductInfoW(product_code_reg_fmt.c_str(), L"INSTALLPROPERTY_VERSIONSTRING", buffer.get(), &length)) {
                 return nullopt;
             }
 

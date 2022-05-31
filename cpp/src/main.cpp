@@ -40,14 +40,19 @@ int main(int const argc, char* argv[]) {
         return -1;
     }
 
-    guid const upgrade_code{argv[1]};
+    auto const maybe_upgrade_code = guid::try_parse(argv[1]);
+    if (!maybe_upgrade_code.has_value()) {
+        std::wcout << L"unable to translated to guid" << std::endl;
+        return -2;
+    }
 
-    for (auto const products = product_info::get_related_products(upgrade_code);
+
+    for (auto const products = product_info::get_related_products(maybe_upgrade_code.value());
          auto const& product : products) {
 
 
         if (auto const version = product.get_version(); version.has_value()) {
-            std::wcout << product.product_code() << L": " << version.value() << std::endl;
+            std::wcout << win32::to_wstring(product.product_code()) << L": " << version.value() << std::endl;
         } else {
             LOG(INFO) << "failed to get version";
         }

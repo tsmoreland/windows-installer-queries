@@ -14,6 +14,7 @@ module;
 
 #include <algorithm>
 #include <exception>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string_view>
@@ -66,6 +67,23 @@ namespace win32 {
             buffer[63] = '\0';
 
             value_ = from_string(buffer, [](char_type* value, UUID* out) { return UuidFromStringW(value, out); });
+        }
+
+        static std::optional<guid> try_parse(char const* value) {
+            try {
+                return {guid(value)};
+
+            } catch (std::exception const&) {
+                return std::nullopt;
+            }
+        }
+        static std::optional<guid> try_parse(wchar_t const* value) {
+            try {
+                return {guid(value)};
+
+            } catch (std::exception const&) {
+                return std::nullopt;
+            }
         }
 
         guid const& zero() {
