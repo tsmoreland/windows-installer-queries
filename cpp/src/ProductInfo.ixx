@@ -33,10 +33,10 @@ using std::make_unique;
 
 namespace product_info {
 
-	/// <summary>
-	/// MSI Product information
-	/// </summary>
-	export class msi_product {
+    /// <summary>
+    /// MSI Product information
+    /// </summary>
+    export class msi_product {
         wstring product_code_{};
 
     public:
@@ -70,10 +70,10 @@ namespace product_info {
             DWORD length{512};
 
             if (0u != MsiGetProductInfoW(product_code_.c_str(), L"INSTALLPROPERTY_VERSIONSTRING", buffer.get(), &length)) {
-				return nullopt;
+                return nullopt;
             }
 
-			return {wstring(buffer.get(), length)};
+            return {wstring(buffer.get(), length)};
         }
         [[nodiscard]] optional<wstring> get_version_from_registry() const noexcept {
             return nullopt;
@@ -81,11 +81,11 @@ namespace product_info {
 
     };
 
-	/// <summary>
-	/// gets the product codes related to upgrade_code
-	/// </summary>
-	/// <param name="upgrade_code">the upgrade code to retrieve product codes for</param>
-	/// <returns>std::vector<std::wstring> containing the product codes that match upgrade_code</returns>
+    /// <summary>
+    /// gets the product codes related to upgrade_code
+    /// </summary>
+    /// <param name="upgrade_code">the upgrade code to retrieve product codes for</param>
+    /// <returns>std::vector<std::wstring> containing the product codes that match upgrade_code</returns>
     export [[nodiscard]] vector<msi_product> get_related_products(wstring upgrade_code) {
         return vector<msi_product>();
     }
