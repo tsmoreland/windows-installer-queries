@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.8)
 
 find_package(glog 0.5.0 REQUIRED)
 
-set (source_files "main.cpp" "ProductInfo.ixx")
+set (source_files "main.cpp" "ProductInfo.ixx" "Guid.ixx")
 
 # Add source to this project's executable.
 add_executable (installed_version_finder ${source_files})

@@ -23,12 +23,16 @@ module;
 #pragma comment (lib, "msi.lib")
 export module ProductInfo;
 
+import Guid;
+
 using std::vector;
 using std::wstring;
 using std::optional;
 using std::nullopt;
 using std::unique_ptr;
 using std::make_unique;
+
+using win32::guid;
 
 
 namespace product_info {
@@ -86,8 +90,23 @@ namespace product_info {
     /// </summary>
     /// <param name="upgrade_code">the upgrade code to retrieve product codes for</param>
     /// <returns>std::vector<std::wstring> containing the product codes that match upgrade_code</returns>
-    export [[nodiscard]] vector<msi_product> get_related_products(wstring upgrade_code) {
-        return vector<msi_product>();
+    export [[nodiscard]] vector<msi_product> get_related_products(guid const& upgrade_code) {
+
+        auto upgrade_code_registry_fmt{win32::to_registry_wstring(upgrade_code)};
+
+        vector<msi_product> products{};
+        wchar_t buffer[39]{};
+        UINT result{};
+        DWORD index{0};
+        while ((result = MsiEnumRelatedProductsW(upgrade_code_registry_fmt.c_str(), 0, index++, buffer)) == 0) {
+            products.emplace_back(buffer);
+        }
+
+        if (result != ERROR_NO_MORE_ITEMS) {
+            // ...
+        }
+
+        return std::move(products);
     }
 
 } // namespace product_info

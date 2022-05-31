@@ -19,7 +19,7 @@ internal sealed class MsiProduct
         StringBuilder productCodeBuilder = new(39); // capacity for a GUID
 
         int result;
-        while ((result = NativeMethods. MsiEnumRelatedProducts(upgradeCode.ToString("c"), 0, index++, productCodeBuilder)) == Win32ResultCodes.Success.Value())
+        while ((result = NativeMethods. MsiEnumRelatedProducts(upgradeCode.ToString("B"), 0, index++, productCodeBuilder)) == Win32ResultCodes.Success.Value())
         {
             if (Guid.TryParse(productCodeBuilder.ToString(), out Guid productCode))
             {
